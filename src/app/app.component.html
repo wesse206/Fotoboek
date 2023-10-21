@@ -1,5 +1,7 @@
+<button *ngIf="!loginDisplay" (click)="login()">Log in</button>
+<section *ngIf="loginDisplay">
 <div class="w3-container">
-    <h1 class="w3-text">Fotoboek vir: Ek moet nog die name ding uitfigure</h1>
+    <h1 class="w3-text">Fotoboek vir: {{ profile?.givenName }}</h1>
 </div>
 <div class="w3-container">
     <div *ngFor="let bladsy of FotoBoek; index as i" class="w3-display-container w3-border w3-padding w3-row-padding">
@@ -41,3 +43,4 @@
         </div>  
     </div>
 </div>
+</section>

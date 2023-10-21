@@ -1,13 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NgOptimizedImage } from '@angular/common'
+import { HttpClient } from '@angular/common/http';
+
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import oneDriveAPI  from 'onedrive-api'
+
+type ProfileType = {
+  givenName?: string,
+  surname?: string,
+  userPrincipalName?: string,
+  id?: string
+}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  profile!: ProfileType;
+
   FotoBoek: any[] = [
     ['1', '3'],
     []
@@ -16,6 +31,49 @@ export class AppComponent {
     [false, false],
     []
   ]
+  
+  constructor(private authService: MsalService, private broadcastService: MsalBroadcastService, private http: HttpClient) { }
+
+  isIframe = false
+  loginDisplay = false;
+  private readonly _destroying$ = new Subject<void>();
+
+  ngOnInit(): void {
+
+    this.broadcastService.inProgress$
+    .pipe(
+      filter((status: InteractionStatus) => status === InteractionStatus.None),
+      takeUntil(this._destroying$)
+    )
+    .subscribe(() => {
+      this.setLoginDisplay();
+    })
+  }
+
+  getProfile() {
+    this.http.get('https://graph.microsoft.com/v1.0/me')
+      .subscribe(profile => {
+        this.profile = profile;
+        console.log(profile)
+      });
+  }
+  login() {
+    this.authService.loginRedirect();
+  }
+
+  setLoginDisplay() {
+    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+  }
+
+  ngOnDestroy(): void {
+    this._destroying$.next(undefined);
+    this._destroying$.complete();
+  }
+
+/*
+id: 'aba52fa6-01aa-4a40-9a49-49e518c346e7',
+secret: 'quJ8Q~t5~t_CNFemEYzMXZizZ.fLXIvfFrV56bZL'
+*/
 
   showModal = 'none'
   fotos = new FormControl('')
@@ -51,8 +109,8 @@ export class AppComponent {
   }
 
   addPage() {
-    this.FotoBoek.push([])
-    this.StockFotos.push([])
+    this.FotoBoek.push([], [])
+    this.StockFotos.push([], [])
   }
   removePage(page:number) {
     this.FotoBoek.splice(page, 1)
