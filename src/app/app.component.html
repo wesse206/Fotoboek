@@ -8,7 +8,7 @@
         <div style="display: flex; flex-wrap: wrap;">
 
             <div *ngFor="let foto of bladsy; index as j" class="w3-display-container w3-col m4 s6 w3-card-4">
-                <img *ngIf="!StockFotos[i][j]" src="assets/{{foto}}.png" style="width: 100%;" /> 
+                <img *ngIf="!StockFotos[i][j]" src="assets/{{foto}}.jpg" style="width: 100%;" /> 
                 <img *ngIf="StockFotos[i][j]" [src]="foto" style="width: 100%;" /> 
                 <button (click)="removeImage(i, foto)" class="w3-display-topleft w3-btn w3-margin w3-circle w3-black">X</button>
             </div>
