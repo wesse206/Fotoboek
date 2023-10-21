@@ -1,5 +1,6 @@
 <button *ngIf="!loginDisplay" (click)="login()">Log in</button>
 <section *ngIf="loginDisplay">
+    <button (click)="getProfile()">Get user</button>
 <div class="w3-container">
     <h1 class="w3-text">Fotoboek vir: {{ profile?.givenName }}</h1>
 </div>
