@@ -7,13 +7,13 @@
         <button (click)="removePage(i)" class="w3-button w3-display-topright">&times;</button>
         <div style="display: flex; flex-wrap: wrap;">
 
-            <div *ngFor="let foto of bladsy; index as j" class="w3-display-container w3-col s4 w3-card-4">
+            <div *ngFor="let foto of bladsy; index as j" class="w3-display-container w3-col m4 s6 w3-card-4">
                 <img *ngIf="!StockFotos[i][j]" src="assets/{{foto}}.png" style="width: 100%;" /> 
                 <img *ngIf="StockFotos[i][j]" [src]="foto" style="width: 100%;" /> 
                 <button (click)="removeImage(i, foto)" class="w3-display-topleft w3-btn w3-margin w3-circle w3-black">X</button>
             </div>
 
-            <div class="w3-col s4 w3-display-container w3-padding" style="min-height: 100px;">
+            <div class="w3-col s6 m4 w3-display-container w3-padding" style="min-height: 100px;">
                 <button (click)="addImage(i)" class="w3-btn w3-circle w3-black w3-xlarge w3-display-middle" style="margin: auto; min-height: 50;">+</button>
             </div> 
         </div>        
