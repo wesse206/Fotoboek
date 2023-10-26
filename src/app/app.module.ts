@@ -14,8 +14,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: "ae87628e-acd1-414d-b004-275ffe43e2d1",
       authority: "https://login.microsoftonline.com/4073cc9b-b7f3-4d1c-bac6-19cbe891b0a2",
-      redirectUri: 'http://localhost:4200',
-      postLogoutRedirectUri: 'http://localhost:4200'
+      redirectUri: 'https://wesse206.github.io/Jaarboek/',
+      postLogoutRedirectUri: 'https://wesse206.github.io/Jaarboek/'
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage
