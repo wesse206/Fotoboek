@@ -14,8 +14,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: "ae87628e-acd1-414d-b004-275ffe43e2d1",
       authority: "https://login.microsoftonline.com/4073cc9b-b7f3-4d1c-bac6-19cbe891b0a2",
-      redirectUri: 'https://wesse206.github.io/Jaarboek/',
-      postLogoutRedirectUri: 'https://wesse206.github.io/Jaarboek/'
+      redirectUri: 'http://localhost:4200',
+      postLogoutRedirectUri: 'http://localhost:4200'
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage
@@ -28,7 +28,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ["user.read", "files.read"]);
+  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ["user.read", "files.read.all"]);
 
   return {
     interactionType: InteractionType.Redirect,

@@ -21,8 +21,8 @@ type ProfileType = {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  profile!: ProfileType;
-  file : any
+  profile!: ProfileType
+  file = []
 
   FotoBoek: any[] = [
     [
@@ -62,13 +62,50 @@ export class AppComponent implements OnInit {
         this.profile = profile;
       });
   }
-  getFiles() {
-    this.http.post('https://durbanvillehs-my.sharepoint.com/_layouts/15/FilePicker.aspx', { "selection": {"mode":"single"}})
-      .subscribe(file => {
-        this.file = file;
-        console.log(file)
-      });
+  showFileModal = 'none'
+  getFiles(folder: string) {
+    if (folder !== '') {
+      folder = ':' + folder + ':'
+    }
+    this.http.get(`https://graph.microsoft.com/v1.0/me/drive/root${folder}/children`)
+    .subscribe(file => {
+      this.file = []
+      for (let item of file['value'])
+      {
+        if (item.hasOwnProperty("folder")) {
+          this.file.push(item)   
+        }
+        else
+        {
+          if (item['file']['mimeType'].substring(0, 5) === 'image') {
+            this.file.push(item)
+          }
+        }
+      }
+    });
+    
+  this.showFileModal = 'block'
+}
+
+goBack() {
+  this.getFiles(this.path)
+}
+
+path = ''
+pickItem(item) {
+  if (item.hasOwnProperty("folder")) {
+    this.path = item['parentReference']['path'].slice(12)
+    console.log(item['parentReference']['path'].slice(12) + '/' + item['name'])
+    this.getFiles(item['parentReference']['path'].slice(12) + '/'+ item['name'])   
   }
+  else
+  {
+    this.FotoBoek[this.page][this.part].push(item['webUrl'])
+    this.StockFotos[this.page][this.part].push(true)
+    this.showFileModal = this.showModal = 'none'
+  }
+}
+
   login() {
     this.authService.loginRedirect();
   }

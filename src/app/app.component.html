@@ -1,5 +1,6 @@
-<button *ngIf="!loginDisplay" (click)="login()">Log in</button>
-<button (click)="getFiles()">Pick File</button>
+<div *ngIf="!loginDisplay"class="w3-col w3-display-container w3-padding" style="min-height: 100px;">
+    <button (click)="login()" class="w3-btn w3-round-large w3-black w3-xlarge w3-display-middle" style="margin: auto; min-height: 50;">Log in</button>
+</div> 
 <section *ngIf="loginDisplay">
 <div class="w3-container">
     <h1 class="w3-text">{{ profile?.givenName }} se Jaarboek</h1>
@@ -43,11 +44,20 @@
                 <button (click)="newImage(fotoNommer.value); fotoNommer.value = ''" class="w3-button w3-padding w3-black">Kies foto</button>
             </div>  
             <p>OF</p>
-            <p>Kies jou eie foto</p>
+            <p>Kies jou eie foto van OneDrive af</p>
             <div class="w3-row">
-                <input #fotoCustom class="w3-input w3-threequarter" type="file" accept="image/*" />
-                <button (click)="newCustomImage(fotoCustom); fotoNommer.value = ''" class="w3-button w3-padding w3-black">Kies Eie foto</button>
+                <button (click)="getFiles('')" class="w3-button w3-padding w3-black">Kies Eie foto</button>
             </div> 
+        </div>  
+    </div>
+</div>
+
+<div class="w3-modal" style="display: {{ showFileModal }}">
+    <div class="w3-modal-content">
+        <button (click)="showFileModal = 'none'" class="w3-button w3-display-topright">&times;</button>
+        <div class="w3-container w3-padding w3-bar-block w3-light-grey">
+            <a (click)="goBack()" class="w3-bar-item w3-button">❮ Back</a>
+            <a class="w3-bar-item w3-button" *ngFor="let item of file" (click)="pickItem(item)">{{ item.name }}</a>
         </div>  
     </div>
 </div>
