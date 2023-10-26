@@ -1,10 +1,10 @@
 {
   "name": "jaarboek",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href \"https://wesse206.github.io/Jaarboek/\"",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
