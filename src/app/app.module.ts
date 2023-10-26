@@ -28,7 +28,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ["user.read"]);
+  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ["user.read", "files.read"]);
 
   return {
     interactionType: InteractionType.Redirect,
